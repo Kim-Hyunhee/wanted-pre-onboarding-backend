@@ -53,7 +53,7 @@ const AnnouncementService = {
       const [[announcement]] = await databaseConfig.query(announcementQuery);
 
       if (!announcement) {
-        return { announcement: null, relatedJobs: [] };
+        return false;
       }
 
       const [relatedJobs] = await databaseConfig.query(relatedJobsQuery);
