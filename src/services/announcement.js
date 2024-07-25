@@ -25,6 +25,7 @@ const AnnouncementService = {
     "${description}",
     '${skill}',
     '${companyId}');`;
+
     await databaseConfig.query(query);
 
     return true;
@@ -34,6 +35,9 @@ const AnnouncementService = {
     const query = `SELECT * FROM announcement WHERE id = ${id}`;
 
     const [[announcement]] = await databaseConfig.query(query);
+    if (!announcement) {
+      return false;
+    }
 
     return announcement;
   },
@@ -44,6 +48,30 @@ const AnnouncementService = {
     const [announcements] = await databaseConfig.query(query);
 
     return announcements;
+  },
+
+  updateAnnouncement: async ({
+    id,
+    position,
+    country,
+    area,
+    reward,
+    description,
+    skill,
+  }) => {
+    const query = `UPDATE
+    announcement SET 
+    position = '${position}',
+    country = '${country}',
+    area = '${area}',
+    reward = '${reward}',
+    description = "${description}",
+    skill = '${skill}'
+    WHERE id = ${id};`;
+
+    await databaseConfig.query(query);
+
+    return true;
   },
 };
 

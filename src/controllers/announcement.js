@@ -21,6 +21,9 @@ export const getAnnouncement = async (req, res) => {
   const { id } = req.params;
 
   const announcement = await AnnouncementService.findAnnouncement({ id });
+  if (!announcement) {
+    return res.send({ message: "존재하지 않는 채용 공고입니다." });
+  }
 
   return res.send(announcement);
 };
@@ -29,4 +32,26 @@ export const getManyAnnouncement = async (req, res) => {
   const announcement = await AnnouncementService.findManyAnnouncement();
 
   return res.send(announcement);
+};
+
+export const putAnnouncement = async (req, res) => {
+  const { id } = req.params;
+  const { position, country, area, reward, description, skill } = req.body;
+
+  const announcement = await AnnouncementService.findAnnouncement({ id });
+  if (!announcement) {
+    return res.send({ message: "존재하지 않는 채용 공고입니다." });
+  }
+
+  await AnnouncementService.updateAnnouncement({
+    id,
+    position,
+    country,
+    area,
+    reward,
+    description,
+    skill,
+  });
+
+  return res.send(true);
 };
