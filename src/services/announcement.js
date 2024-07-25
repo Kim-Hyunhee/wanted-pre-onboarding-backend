@@ -32,16 +32,40 @@ const AnnouncementService = {
   },
 
   findAnnouncement: async ({ id }) => {
-    const query = `SELECT * FROM announcement 
-    JOIN company ON announcement.companyId = company.id 
-    WHERE announcement.id = ${id}`;
+    const announcementQuery = `
+    SELECT a.*, c.* 
+    FROM announcement a
+    JOIN company c ON a.companyId = c.id
+    WHERE a.id = ${id}
+  `;
 
-    const [[announcement]] = await databaseConfig.query(query);
-    if (!announcement) {
-      return false;
+    const relatedJobsQuery = `
+    SELECT id as announceId
+    FROM announcement
+    WHERE companyId = (
+      SELECT companyId 
+      FROM announcement 
+      WHERE id = ${id}
+    )
+  `;
+
+    try {
+      const [[announcement]] = await databaseConfig.query(announcementQuery);
+
+      if (!announcement) {
+        return { announcement: null, relatedJobs: [] };
+      }
+
+      const [relatedJobs] = await databaseConfig.query(relatedJobsQuery);
+
+      return {
+        announcement,
+        relatedJobs,
+      };
+    } catch (error) {
+      console.error("Error fetching announcement and related jobs:", error);
+      throw new Error("Internal Server Error");
     }
-
-    return announcement;
   },
 
   findManyAnnouncement: async ({ search }) => {
