@@ -37,6 +37,14 @@ const AnnouncementService = {
 
     return announcement;
   },
+
+  findManyAnnouncement: async () => {
+    const query = `SELECT * FROM announcement;`;
+
+    const [announcements] = await databaseConfig.query(query);
+
+    return announcements;
+  },
 };
 
 export default AnnouncementService;

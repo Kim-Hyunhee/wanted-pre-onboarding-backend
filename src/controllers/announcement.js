@@ -24,3 +24,9 @@ export const getAnnouncement = async (req, res) => {
 
   return res.send(announcement);
 };
+
+export const getManyAnnouncement = async (req, res) => {
+  const announcement = await AnnouncementService.findManyAnnouncement();
+
+  return res.send(announcement);
+};
