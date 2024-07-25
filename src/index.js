@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { announcementRouter } from "./routers/index.js";
+import { announcementRouter, applyRouter } from "./routers/index.js";
 
 const app = express();
 const port = 3000;
@@ -19,6 +19,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use("/announcement", announcementRouter);
+app.use("/apply", applyRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
