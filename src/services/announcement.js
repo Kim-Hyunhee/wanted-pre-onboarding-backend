@@ -32,7 +32,9 @@ const AnnouncementService = {
   },
 
   findAnnouncement: async ({ id }) => {
-    const query = `SELECT * FROM announcement WHERE id = ${id}`;
+    const query = `SELECT * FROM announcement 
+    JOIN company ON announcement.companyId = company.id 
+    WHERE announcement.id = ${id}`;
 
     const [[announcement]] = await databaseConfig.query(query);
     if (!announcement) {
@@ -43,13 +45,17 @@ const AnnouncementService = {
   },
 
   findManyAnnouncement: async ({ search }) => {
-    const query = `SELECT * FROM announcement 
-    WHERE position LIKE '%${search}%' 
-    OR country LIKE '%${search}%'
-    OR area LIKE '%${search}%'
-    OR reward LIKE '%${search}%'
-    OR description LIKE '%${search}%'
-    OR skill LIKE '%${search}%';`;
+    const query = `SELECT announcement.id, company.name as companyName,
+    announcement.country, announcement.area, announcement.position,
+    announcement.reward, announcement.skill
+    FROM announcement 
+    JOIN company ON announcement.companyId = company.id 
+    WHERE announcement.position LIKE '%${search}%' 
+    OR announcement.country LIKE '%${search}%'
+    OR announcement.area LIKE '%${search}%'
+    OR announcement.reward LIKE '%${search}%'
+    OR announcement.skill LIKE '%${search}%'
+    OR company.name LIKE '%${search}%';`;
 
     const [announcements] = await databaseConfig.query(query);
 
