@@ -55,3 +55,16 @@ export const putAnnouncement = async (req, res) => {
 
   return res.send(true);
 };
+
+export const deleteAnnouncement = async (req, res) => {
+  const { id } = req.params;
+
+  const announcement = await AnnouncementService.findAnnouncement({ id });
+  if (!announcement) {
+    return res.send({ message: "존재하지 않는 채용 공고입니다." });
+  }
+
+  await AnnouncementService.removeAnnouncement({ id });
+
+  return res.send(true);
+};

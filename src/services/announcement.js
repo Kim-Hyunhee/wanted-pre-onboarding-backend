@@ -73,6 +73,14 @@ const AnnouncementService = {
 
     return true;
   },
+
+  removeAnnouncement: async ({ id }) => {
+    const query = `DELETE FROM announcement WHERE id = ${id};`;
+
+    await databaseConfig.query(query);
+
+    return true;
+  },
 };
 
 export default AnnouncementService;

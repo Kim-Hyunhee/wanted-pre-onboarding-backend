@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteAnnouncement,
   getAnnouncement,
   getManyAnnouncement,
   postAnnouncement,
@@ -12,5 +13,6 @@ router.post("/", postAnnouncement);
 router.get("/:id", getAnnouncement);
 router.get("/", getManyAnnouncement);
 router.put("/:id", putAnnouncement);
+router.delete("/:id", deleteAnnouncement);
 
 export const announcementRouter = router;
