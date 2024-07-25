@@ -29,7 +29,11 @@ export const getAnnouncement = async (req, res) => {
 };
 
 export const getManyAnnouncement = async (req, res) => {
-  const announcement = await AnnouncementService.findManyAnnouncement();
+  const { search } = req.query;
+
+  const announcement = await AnnouncementService.findManyAnnouncement({
+    search,
+  });
 
   return res.send(announcement);
 };

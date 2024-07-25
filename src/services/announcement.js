@@ -42,8 +42,14 @@ const AnnouncementService = {
     return announcement;
   },
 
-  findManyAnnouncement: async () => {
-    const query = `SELECT * FROM announcement;`;
+  findManyAnnouncement: async ({ search }) => {
+    const query = `SELECT * FROM announcement 
+    WHERE position LIKE '%${search}%' 
+    OR country LIKE '%${search}%'
+    OR area LIKE '%${search}%'
+    OR reward LIKE '%${search}%'
+    OR description LIKE '%${search}%'
+    OR skill LIKE '%${search}%';`;
 
     const [announcements] = await databaseConfig.query(query);
 
