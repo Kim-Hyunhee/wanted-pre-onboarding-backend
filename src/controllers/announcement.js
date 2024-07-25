@@ -16,3 +16,11 @@ export const postAnnouncement = async (req, res) => {
 
   return res.send(true);
 };
+
+export const getAnnouncement = async (req, res) => {
+  const { id } = req.params;
+
+  const announcement = await AnnouncementService.findAnnouncement({ id });
+
+  return res.send(announcement);
+};

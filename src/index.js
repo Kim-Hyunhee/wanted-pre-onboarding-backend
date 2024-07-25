@@ -12,8 +12,14 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error occurred:", err.stack);
+  res.status(500).send("Something broke!");
 });
 
 app.use("/announcement", announcementRouter);
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});

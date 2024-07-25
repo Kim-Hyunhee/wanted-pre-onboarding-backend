@@ -24,10 +24,18 @@ const AnnouncementService = {
     '${reward}',
     "${description}",
     '${skill}',
-    '${companyId}')`;
+    '${companyId}');`;
     await databaseConfig.query(query);
 
     return true;
+  },
+
+  findAnnouncement: async ({ id }) => {
+    const query = `SELECT * FROM announcement WHERE id = ${id}`;
+
+    const [[announcement]] = await databaseConfig.query(query);
+
+    return announcement;
   },
 };
 
