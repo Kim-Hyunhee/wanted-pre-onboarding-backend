@@ -38,9 +38,14 @@ const AnnouncementService = {
     '${skill}',
     '${companyId}');`;
 
-    await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
+    try {
+      await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error("Error creating announcement:", error.message);
+      throw new Error("Failed to create announcement");
+    }
   },
 
   /**
@@ -106,9 +111,14 @@ const AnnouncementService = {
     OR announcement.skill LIKE '%${search}%'
     OR company.name LIKE '%${search}%';`;
 
-    const [announcements] = await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행하여 결과를 가져옵니다.
+    try {
+      const [announcements] = await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행하여 결과를 가져옵니다.
 
-    return announcements;
+      return announcements;
+    } catch (error) {
+      console.error("Error fetching announcement and related jobs:", error); // 오류를 로그에 기록합니다.
+      throw new Error("Internal Server Error"); // 오류가 발생하면 예외를 던집니다.
+    }
   },
 
   /**
@@ -142,9 +152,14 @@ const AnnouncementService = {
     skill = '${skill}'
     WHERE id = ${id};`;
 
-    await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
+    try {
+      await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error("Error fetching announcement and related jobs:", error); // 오류를 로그에 기록합니다.
+      throw new Error("Internal Server Error"); // 오류가 발생하면 예외를 던집니다.
+    }
   },
 
   /**
@@ -156,9 +171,14 @@ const AnnouncementService = {
   removeAnnouncement: async ({ id }) => {
     const query = `DELETE FROM announcement WHERE id = ${id};`;
 
-    await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
+    try {
+      await databaseConfig.query(query); // 데이터베이스에 쿼리를 실행합니다.
 
-    return true;
+      return true;
+    } catch (error) {
+      console.error("Error fetching announcement and related jobs:", error); // 오류를 로그에 기록합니다.
+      throw new Error("Internal Server Error"); // 오류가 발생하면 예외를 던집니다.
+    }
   },
 };
 
