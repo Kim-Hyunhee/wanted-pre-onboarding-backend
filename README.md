@@ -58,7 +58,7 @@ npm install
 ## 사용법
 
 npm run start
-서버가 실행되며, 기본적으로 http://localhost:3000에서 접근할 수 있습니다.
+서버가 실행되며, 기본적으로 http://localhost:3000 에서 접근할 수 있습니다.
 
 ## 기여
 
