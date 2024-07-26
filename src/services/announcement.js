@@ -51,7 +51,8 @@ const AnnouncementService = {
    */
   findAnnouncement: async ({ id }) => {
     const announcementQuery = `
-    SELECT a.*, c.* 
+    SELECT a.id, a.position, a.country, a.area, a.reward, a.description, a.skill, a.createdAt, a.updatedAt, a.companyId,
+           c.name AS companyName
     FROM announcement a
     JOIN company c ON a.companyId = c.id
     WHERE a.id = ${id}

@@ -10,18 +10,27 @@ import ApplyService from "../services/apply.js"; // Apply 서비스 모듈을 �
 export const postApply = async (req, res) => {
   const { userId, announcementId } = req.body; // 요청 본문에서 사용자 ID와 채용 공고 ID를 추출합니다.
 
+  if (
+    typeof userId !== "number" ||
+    isNaN(userId) ||
+    typeof announcementId !== "number" ||
+    isNaN(announcementId)
+  ) {
+    return res.status(400).send({ message: "타입을 정확히 입력해주세요." });
+  }
+
   // 채용 공고를 조회합니다.
   const announcement = await AnnouncementService.findAnnouncement({
     id: announcementId,
   });
   if (!announcement) {
-    return res.send({ message: "존재하지 않는 채용 공고입니다." }); // 해당 ID의 공고가 없는 경우 메시지를 응답합니다.
+    return res.status(404).send({ message: "존재하지 않는 채용 공고입니다." }); // 해당 ID의 공고가 없는 경우 메시지를 응답합니다.
   }
 
   // 사용자가 이미 해당 채용 공고에 지원했는지 확인합니다.
   const apply = await ApplyService.findApply({ userId, announcementId });
-  if (apply) {
-    return res.send({ message: "이미 지원한 채용공고입니다." }); // 이미 지원한 경우 메시지를 응답합니다.
+  if (!apply) {
+    return res.status(400).send({ message: "이미 지원한 채용공고입니다." }); // 이미 지원한 경우 메시지를 응답합니다.
   }
 
   // 지원 정보를 생성합니다.
