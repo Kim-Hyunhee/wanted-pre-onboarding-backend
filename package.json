@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node src/index.js"
   },
   "author": "",
@@ -15,5 +15,12 @@
     "express": "^4.19.2",
     "mysql2": "^3.10.3"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/register": "^7.24.6",
+    "chai": "^4.5.0",
+    "mocha": "^10.7.0"
+  }
 }
